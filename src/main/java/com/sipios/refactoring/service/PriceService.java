@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Service
 public class PriceService {
@@ -21,7 +22,7 @@ public class PriceService {
 
         final var discount = discountService.computeDiscount(requestCart.getCustomerType());
 
-        final var items = requestCart.getItems();
+        final var items = Objects.requireNonNullElse(requestCart.getItems(), new Item[]{});
 
         final var winterOrSummerDiscountPeriod = discountService.isWinterOrSummerDiscountPeriod(LocalDate.now());
 
