@@ -5,12 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 @Service
 public class DiscountService {
 
-    public double computeDiscount(CustomerType type){
+    public double computeDiscount(CustomerType type) {
         switch (type) {
             case STANDARD_CUSTOMER:
                 return 1;
@@ -23,15 +24,18 @@ public class DiscountService {
         }
     }
 
-    public boolean isWinterOrSummerDiscountPeriod(Calendar cal) {
-        return (cal.get(Calendar.DAY_OF_MONTH) < 15
-            && cal.get(Calendar.DAY_OF_MONTH) > 5
-            && cal.get(Calendar.MONTH) == 5)
+    public boolean isWinterOrSummerDiscountPeriod(LocalDate now) {
+
+        int dayOfMonth = now.getDayOfMonth();
+
+        return (dayOfMonth < 15
+            && dayOfMonth > 5
+            && now.getMonth() == Month.JUNE)
             ||
-            (cal.get(Calendar.DAY_OF_MONTH)
-            < 15
-            && cal.get(Calendar.DAY_OF_MONTH) > 5
-            && cal.get(Calendar.MONTH) == 0);
+            (dayOfMonth
+                < 15
+                && dayOfMonth > 5
+                && now.getMonth() == Month.JANUARY);
     }
 
 }

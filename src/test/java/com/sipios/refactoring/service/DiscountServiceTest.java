@@ -1,21 +1,22 @@
 package com.sipios.refactoring.service;
 
+import com.sipios.refactoring.UnitTest;
 import com.sipios.refactoring.model.CustomerType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ArgumentConversionException;
+import org.junit.jupiter.params.converter.ArgumentConverter;
+import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.LocalDate;
 
-@ExtendWith(MockitoExtension.class)
-class DiscountServiceTest {
+
+class DiscountServiceTest extends UnitTest {
 
     @InjectMocks
     private DiscountService discountService;
@@ -41,14 +42,32 @@ class DiscountServiceTest {
     class DiscountPeriod {
 
         @ParameterizedTest
-        @CsvSource(value = {"1591740000000 | true", "1578610800000 | true",
-            "1592258400000 | false", "1590962400000 | false"}, delimiter = '|')
-        public void should_return_true(long dateAsMillis, boolean expectedValue) {
-            final var date = new Date(dateAsMillis);
-            final var cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-            cal.setTime(date);
+        @CsvSource(value = {"2020/06/10 | true", "2020/01/10 | true",
+            "2020/03/30 | false", "2020/10/30 | false"}, delimiter = '|')
+        public void should_return_true(@ConvertWith(SlashyDateConverter.class) LocalDate localDate, boolean expectedValue) {
+            Assertions.assertThat(discountService.isWinterOrSummerDiscountPeriod(localDate)).isEqualTo(expectedValue);
+        }
+    }
+}
 
-            Assertions.assertThat(discountService.isWinterOrSummerDiscountPeriod(cal)).isEqualTo(expectedValue);
+class SlashyDateConverter implements ArgumentConverter {
+
+    @Override
+    public Object convert(Object source, ParameterContext context)
+        throws ArgumentConversionException {
+        if (!(source instanceof String)) {
+            throw new IllegalArgumentException(
+                "The argument should be a string: " + source);
+        }
+        try {
+            String[] parts = ((String) source).split("/");
+            int year = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int day = Integer.parseInt(parts[2]);
+
+            return LocalDate.of(year, month, day);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to convert", e);
         }
     }
 }

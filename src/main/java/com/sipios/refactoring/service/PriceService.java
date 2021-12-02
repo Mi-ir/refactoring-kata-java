@@ -5,10 +5,8 @@ import com.sipios.refactoring.model.Item;
 import com.sipios.refactoring.model.ItemType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 @Service
 public class PriceService {
@@ -20,15 +18,12 @@ public class PriceService {
     }
 
     public double computePrice(final Cart requestCart) {
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        cal.setTime(date);
 
         final var discount = discountService.computeDiscount(requestCart.getCustomerType());
 
         final var items = requestCart.getItems();
 
-        final var winterOrSummerDiscountPeriod = discountService.isWinterOrSummerDiscountPeriod(cal);
+        final var winterOrSummerDiscountPeriod = discountService.isWinterOrSummerDiscountPeriod(LocalDate.now());
 
         return Arrays.stream(items)
             .map(item -> computeItemPrice(discount, item, winterOrSummerDiscountPeriod))

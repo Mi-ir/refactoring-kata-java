@@ -1,5 +1,6 @@
 package com.sipios.refactoring.service;
 
+import com.sipios.refactoring.UnitTest;
 import com.sipios.refactoring.model.Cart;
 import com.sipios.refactoring.model.CustomerType;
 import com.sipios.refactoring.model.Item;
@@ -9,19 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.time.LocalDate;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class PriceServiceTest {
+class PriceServiceTest extends UnitTest {
 
     @InjectMocks
     private PriceService priceService;
