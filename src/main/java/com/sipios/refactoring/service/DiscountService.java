@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Calendar;
+
 @Service
 public class DiscountService {
 
@@ -19,5 +21,14 @@ public class DiscountService {
             default:
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public boolean isWinterOrSummerDiscountPeriod(Calendar cal) {
+        return !(cal.get(Calendar.DAY_OF_MONTH) < 15
+            && cal.get(Calendar.DAY_OF_MONTH) > 5
+            && cal.get(Calendar.MONTH) == 5) && !(cal.get(Calendar.DAY_OF_MONTH)
+            < 15
+            && cal.get(Calendar.DAY_OF_MONTH) > 5
+            && cal.get(Calendar.MONTH) == 0);
     }
 }
