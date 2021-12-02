@@ -30,7 +30,7 @@ public class ShoppingController {
 
     @PostMapping
     public String getPrice(@RequestBody Body requestBody) {
-        double p = 0;
+        double price = 0;
         double d;
 
         Date date = new Date();
@@ -62,11 +62,11 @@ public class ShoppingController {
                 Item it = requestBody.getItems()[i];
 
                 if (it.getType().equals("TSHIRT")) {
-                    p += 30 * it.getNb() * d;
+                    price += 30 * it.getNb() * d;
                 } else if (it.getType().equals("DRESS")) {
-                    p += 50 * it.getNb() * d;
+                    price += 50 * it.getNb() * d;
                 } else if (it.getType().equals("JACKET")) {
-                    p += 100 * it.getNb() * d;
+                    price += 100 * it.getNb() * d;
                 }
             }
         } else {
@@ -78,38 +78,38 @@ public class ShoppingController {
                 Item it = requestBody.getItems()[i];
 
                 if (it.getType().equals("TSHIRT")) {
-                    p += 30 * it.getNb() * d;
+                    price += 30 * it.getNb() * d;
                 } else if (it.getType().equals("DRESS")) {
-                    p += 50 * it.getNb() * 0.8 * d;
+                    price += 50 * it.getNb() * 0.8 * d;
                 } else if (it.getType().equals("JACKET")) {
-                    p += 100 * it.getNb() * 0.9 * d;
+                    price += 100 * it.getNb() * 0.9 * d;
                 }
             }
         }
 
         try {
             if (requestBody.getType().equals("STANDARD_CUSTOMER")) {
-                if (p > 200) {
-                    throw new Exception("Price (" + p + ") is too high for standard customer");
+                if (price > 200) {
+                    throw new Exception("Price (" + price + ") is too high for standard customer");
                 }
             } else if (requestBody.getType().equals("PREMIUM_CUSTOMER")) {
-                if (p > 800) {
-                    throw new Exception("Price (" + p + ") is too high for premium customer");
+                if (price > 800) {
+                    throw new Exception("Price (" + price + ") is too high for premium customer");
                 }
             } else if (requestBody.getType().equals("PLATINUM_CUSTOMER")) {
-                if (p > 2000) {
-                    throw new Exception("Price (" + p + ") is too high for platinum customer");
+                if (price > 2000) {
+                    throw new Exception("Price (" + price + ") is too high for platinum customer");
                 }
             } else {
-                if (p > 200) {
-                    throw new Exception("Price (" + p + ") is too high for standard customer");
+                if (price > 200) {
+                    throw new Exception("Price (" + price + ") is too high for standard customer");
                 }
             }
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
-        return String.valueOf(p);
+        return String.valueOf(price);
     }
 }
 
