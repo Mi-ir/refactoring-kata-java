@@ -1,7 +1,7 @@
 package com.sipios.refactoring.controller;
 
 import com.sipios.refactoring.model.Cart;
-import com.sipios.refactoring.service.DiscountService;
+import com.sipios.refactoring.model.CustomerType;
 import com.sipios.refactoring.service.PriceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,63 +12,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import static com.sipios.refactoring.model.CustomerType.*;
-
 @RestController
 @RequestMapping("/shopping")
 public class ShoppingController {
 
-    private final Logger logger;
-    private final DiscountService discountService;
     private final PriceService priceService;
 
-    public ShoppingController(final DiscountService discountService, PriceService priceService) {
+    public ShoppingController(PriceService priceService) {
         this.priceService = priceService;
-        this.logger = LoggerFactory.getLogger(ShoppingController.class);
-        this.discountService = discountService;
     }
 
     @PostMapping
-    public String getPrice(@RequestBody Cart requestCart) {
+    public String getPrice(@RequestBody Cart cart) {
 
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        cal.setTime(date);
+        double price = priceService.computePrice(cart);
 
-        // Compute discount for customer
-
-
-        // Compute total amount depending on the types and quantity of product and
-        // if we are in winter or summer discounts periods
-        double price = priceService.computePrice(requestCart, cal);
-
-        try {
-            if (requestCart.getCustomerType().equals(STANDARD_CUSTOMER)) {
-                if (price > 200) {
-                    throw new Exception("Price (" + price + ") is too high for standard customer");
-                }
-            } else if (requestCart.getCustomerType().equals(PREMIUM_CUSTOMER)) {
-                if (price > 800) {
-                    throw new Exception("Price (" + price + ") is too high for premium customer");
-                }
-            } else if (requestCart.getCustomerType().equals(PLATINUM_CUSTOMER)) {
-                if (price > 2000) {
-                    throw new Exception("Price (" + price + ") is too high for platinum customer");
-                }
-            } else {
-                if (price > 200) {
-                    throw new Exception("Price (" + price + ") is too high for standard customer");
-                }
-            }
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        validatePrice(price, cart.getCustomerType());
 
         return String.valueOf(price);
+    }
+
+    private void validatePrice(double price, CustomerType customerType) {
+        if (price > customerType.getMaxPrice()) {
+            String message = String.format("Price (%s) is too high for %s customer", price, customerType.getValue());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
 }

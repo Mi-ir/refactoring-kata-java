@@ -1,8 +1,8 @@
 package com.sipios.refactoring.model;
 
 public class Item {
-    private ItemType type;
-    private int nb;
+    private final ItemType type;
+    private final int nb;
 
     public Item(ItemType type, int quantity) {
         this.type = type;
@@ -13,15 +13,7 @@ public class Item {
         return type;
     }
 
-    public void setType(ItemType type) {
-        this.type = type;
-    }
-
     public int getNb() {
         return nb;
-    }
-
-    public void setNb(int nb) {
-        this.nb = nb;
     }
 }

@@ -17,7 +17,7 @@ public enum ItemType {
         return price;
     }
 
-    public double getAdditionnalDiscountRatio(){
-return additionnalDiscountRatio;
+    public double getAdditionnalDiscountRatio() {
+        return additionnalDiscountRatio;
     }
 }

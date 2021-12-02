@@ -1,9 +1,9 @@
 package com.sipios.refactoring.model;
 
-public  class Cart {
+public class Cart {
 
-    private Item[] items;
-    private CustomerType customerType;
+    private final Item[] items;
+    private final CustomerType customerType;
 
     public Cart(Item[] items, CustomerType customerType) {
         this.items = items;
@@ -14,15 +14,8 @@ public  class Cart {
         return items;
     }
 
-    public void setItems(Item[] items) {
-        this.items = items;
-    }
-
     public CustomerType getCustomerType() {
         return customerType;
     }
 
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
 }
