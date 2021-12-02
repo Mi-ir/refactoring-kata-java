@@ -17,34 +17,32 @@ public class PriceService {
         this.discountService = discountService;
     }
 
-    public double computePrice(Cart requestCart,
-                               double d,
-                               Calendar cal) {
+    public double computePrice(final Cart requestCart,
+                               final double discount,
+                               final Calendar cal) {
         var price = 0;
+        final var items = requestCart.getItems();
         if (!discountService.isWinterOrSummerDiscountPeriod(cal)) {
-            if (requestCart.getItems() != null) {
-                for (int i = 0; i < requestCart.getItems().length; i++) {
-                    Item it = requestCart.getItems()[i];
-                    if (it.getType().equals(TSHIRT)) {
-                        price += 30 * it.getNb() * d;
-                    } else if (it.getType().equals(DRESS)) {
-                        price += 50 * it.getNb() * d;
-                    } else if (it.getType().equals(JACKET)) {
-                        price += 100 * it.getNb() * d;
+            if (items != null) {
+                for (final var item : items) {
+                    if (item.getType().equals(TSHIRT)) {
+                        price += 30 * item.getNb() * discount;
+                    } else if (item.getType().equals(DRESS)) {
+                        price += 50 * item.getNb() * discount;
+                    } else if (item.getType().equals(JACKET)) {
+                        price += 100 * item.getNb() * discount;
                     }
                 }
             }
         } else {
-            if (requestCart.getItems() != null) {
-                for (int i = 0; i < requestCart.getItems().length; i++) {
-                    Item it = requestCart.getItems()[i];
-
-                    if (it.getType().equals(TSHIRT)) {
-                        price += 30 * it.getNb() * d;
-                    } else if (it.getType().equals(DRESS)) {
-                        price += 50 * it.getNb() * 0.8 * d;
-                    } else if (it.getType().equals(JACKET)) {
-                        price += 100 * it.getNb() * 0.9 * d;
+            if (items != null) {
+                for (final var item : items) {
+                    if (item.getType().equals(TSHIRT)) {
+                        price += 30 * item.getNb() * discount;
+                    } else if (item.getType().equals(DRESS)) {
+                        price += 50 * item.getNb() * 0.8 * discount;
+                    } else if (item.getType().equals(JACKET)) {
+                        price += 100 * item.getNb() * 0.9 * discount;
                     }
                 }
             }
