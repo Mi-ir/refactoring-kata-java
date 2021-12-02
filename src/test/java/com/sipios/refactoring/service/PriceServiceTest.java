@@ -62,7 +62,7 @@ class PriceServiceTest {
             final var cart = new Cart(new Item[]{tshirt}, CustomerType.STANDARD_CUSTOMER);
 
             //WHEN
-            final var actualPrice = priceService.computePrice_old(cart, 1, cal);
+            final var actualPrice = priceService.computePrice(cart,  cal);
 
             //THEN
             Assertions.assertThat(actualPrice).isEqualTo(400);
@@ -76,7 +76,7 @@ class PriceServiceTest {
             final var cart = new Cart(new Item[]{tshirt}, CustomerType.STANDARD_CUSTOMER);
 
             //WHEN
-            final var actualPrice = priceService.computePrice_old(cart, 1, cal);
+            final var actualPrice = priceService.computePrice(cart,  cal);
 
             //THEN
             Assertions.assertThat(actualPrice).isEqualTo(900);
@@ -86,6 +86,13 @@ class PriceServiceTest {
     @Nested
     @DisplayName("Compute price without sale")
     class ComputePriceWithoutSale {
+
+        @BeforeEach
+        public void init() {
+            when(discountService.isWinterOrSummerDiscountPeriod(any())).thenReturn(false);
+            when(discountService.computeDiscount(any())).thenReturn(1D);
+        }
+
         @Test
         public void should_compute_tshirt_price() {
             //GIVEN
@@ -94,7 +101,7 @@ class PriceServiceTest {
             final var cart = new Cart(new Item[]{tshirt}, CustomerType.STANDARD_CUSTOMER);
 
             //WHEN
-            final var actualPrice = priceService.computePrice_old(cart, 1, cal);
+            final var actualPrice = priceService.computePrice(cart,  cal);
 
             //THEN
             Assertions.assertThat(actualPrice).isEqualTo(300);
@@ -108,7 +115,7 @@ class PriceServiceTest {
             final var cart = new Cart(new Item[]{tshirt}, CustomerType.STANDARD_CUSTOMER);
 
             //WHEN
-            final var actualPrice = priceService.computePrice_old(cart, 1, cal);
+            final var actualPrice = priceService.computePrice(cart,  cal);
 
             //THEN
             Assertions.assertThat(actualPrice).isEqualTo(500);
@@ -121,7 +128,7 @@ class PriceServiceTest {
             final var cart = new Cart(new Item[]{tshirt}, CustomerType.STANDARD_CUSTOMER);
 
             //WHEN
-            final var actualPrice = priceService.computePrice_old(cart, 1, cal);
+            final var actualPrice = priceService.computePrice(cart,  cal);
 
             //THEN
             Assertions.assertThat(actualPrice).isEqualTo(1000);
