@@ -33,4 +33,5 @@ public class DiscountService {
             && cal.get(Calendar.DAY_OF_MONTH) > 5
             && cal.get(Calendar.MONTH) == 0);
     }
+
 }

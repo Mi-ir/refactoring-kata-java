@@ -5,8 +5,8 @@ public  class Cart {
     private Item[] items;
     private CustomerType customerType;
 
-    public Cart(Item[] is, CustomerType customerType) {
-        this.items = is;
+    public Cart(Item[] items, CustomerType customerType) {
+        this.items = items;
         this.customerType = customerType;
     }
 

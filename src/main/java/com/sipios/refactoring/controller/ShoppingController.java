@@ -40,11 +40,11 @@ public class ShoppingController {
         cal.setTime(date);
 
         // Compute discount for customer
-        double d = discountService.computeDiscount(requestCart.getCustomerType());
+
 
         // Compute total amount depending on the types and quantity of product and
         // if we are in winter or summer discounts periods
-        double price = priceService.computePrice(requestCart, d, cal);
+        double price = priceService.computePrice(requestCart, cal);
 
         try {
             if (requestCart.getCustomerType().equals(STANDARD_CUSTOMER)) {
