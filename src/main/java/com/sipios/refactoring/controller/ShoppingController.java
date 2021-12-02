@@ -46,7 +46,7 @@ public class ShoppingController {
 
         // Compute total amount depending on the types and quantity of product and
         // if we are in winter or summer discounts periods
-        if (discountService.isWinterOrSummerDiscountPeriod(cal)) {
+        if (!discountService.isWinterOrSummerDiscountPeriod(cal)) {
             if (requestCart.getItems() == null) {
                 return "0";
             }

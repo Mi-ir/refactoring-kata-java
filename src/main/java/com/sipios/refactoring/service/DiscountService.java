@@ -24,9 +24,11 @@ public class DiscountService {
     }
 
     public boolean isWinterOrSummerDiscountPeriod(Calendar cal) {
-        return !(cal.get(Calendar.DAY_OF_MONTH) < 15
+        return (cal.get(Calendar.DAY_OF_MONTH) < 15
             && cal.get(Calendar.DAY_OF_MONTH) > 5
-            && cal.get(Calendar.MONTH) == 5) && !(cal.get(Calendar.DAY_OF_MONTH)
+            && cal.get(Calendar.MONTH) == 5)
+            ||
+            (cal.get(Calendar.DAY_OF_MONTH)
             < 15
             && cal.get(Calendar.DAY_OF_MONTH) > 5
             && cal.get(Calendar.MONTH) == 0);
