@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
+import static com.sipios.refactoring.model.CustomerType.STANDARD_CUSTOMER;
+
 class ShoppingControllerTests extends UnitTest {
 
     @InjectMocks
@@ -15,7 +17,7 @@ class ShoppingControllerTests extends UnitTest {
     @Test
     void should_not_throw() {
         Assertions.assertDoesNotThrow(
-            () -> controller.getPrice(new Cart(new Item[] {}, "STANDARD_CUSTOMER"))
+            () -> controller.getPrice(new Cart(new Item[] {}, STANDARD_CUSTOMER))
         );
     }
 }

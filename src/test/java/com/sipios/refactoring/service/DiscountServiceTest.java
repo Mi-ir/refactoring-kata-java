@@ -1,5 +1,6 @@
 package com.sipios.refactoring.service;
 
+import com.sipios.refactoring.model.CustomerType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -26,23 +27,12 @@ class DiscountServiceTest {
 
         @ParameterizedTest
         @CsvSource(value = {"STANDARD_CUSTOMER | 1", "PREMIUM_CUSTOMER | 0.9", "PLATINUM_CUSTOMER | 0.5"}, delimiter = '|')
-        public void should_compute_discount(String type, double expectedDiscount){
+        public void should_compute_discount(CustomerType type, double expectedDiscount){
             //THEN
             final var actualDiscount = discountService.computeDiscount(type);
 
             Assertions.assertThat(actualDiscount).isEqualTo(expectedDiscount);
         }
-
-        @Test
-        public void should_throw_exception_if_type_not_found(){
-            assertThrows(ResponseStatusException.class, () -> discountService.computeDiscount("not found"));
-        }
-
-        @Test
-        public void should_throw_exception_if_type_null(){
-            assertThrows(ResponseStatusException.class, () -> discountService.computeDiscount(null));
-        }
-
 
     }
 }

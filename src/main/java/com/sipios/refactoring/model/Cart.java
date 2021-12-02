@@ -3,13 +3,13 @@ package com.sipios.refactoring.model;
 public  class Cart {
 
     private Item[] items;
-    private String type;
+    private CustomerType customerType;
 
-    public Cart(Item[] is, String t) {
+    public Cart(Item[] is, CustomerType customerType) {
         this.items = is;
-        this.type = t;
+        this.customerType = customerType;
     }
-    
+
     public Item[] getItems() {
         return items;
     }
@@ -18,11 +18,11 @@ public  class Cart {
         this.items = items;
     }
 
-    public String getType() {
-        return type;
+    public CustomerType getCustomerType() {
+        return customerType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
     }
 }

@@ -38,7 +38,7 @@ public class ShoppingController {
         cal.setTime(date);
 
         // Compute discount for customer
-        d = discountService.computeDiscount(requestCart.getType());
+        d = discountService.computeDiscount(requestCart.getCustomerType());
 
         // Compute total amount depending on the types and quantity of product and
         // if we are in winter or summer discounts periods
@@ -88,15 +88,15 @@ public class ShoppingController {
         }
 
         try {
-            if (requestCart.getType().equals("STANDARD_CUSTOMER")) {
+            if (requestCart.getCustomerType().equals("STANDARD_CUSTOMER")) {
                 if (price > 200) {
                     throw new Exception("Price (" + price + ") is too high for standard customer");
                 }
-            } else if (requestCart.getType().equals("PREMIUM_CUSTOMER")) {
+            } else if (requestCart.getCustomerType().equals("PREMIUM_CUSTOMER")) {
                 if (price > 800) {
                     throw new Exception("Price (" + price + ") is too high for premium customer");
                 }
-            } else if (requestCart.getType().equals("PLATINUM_CUSTOMER")) {
+            } else if (requestCart.getCustomerType().equals("PLATINUM_CUSTOMER")) {
                 if (price > 2000) {
                     throw new Exception("Price (" + price + ") is too high for platinum customer");
                 }
