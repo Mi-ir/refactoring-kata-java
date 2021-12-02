@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import com.sipios.refactoring.model.Cart;
+import com.sipios.refactoring.model.CustomerType;
 import com.sipios.refactoring.model.Item;
 import com.sipios.refactoring.model.ItemType;
 import com.sipios.refactoring.service.DiscountService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.sipios.refactoring.model.CustomerType.*;
 import static com.sipios.refactoring.model.ItemType.*;
 import static com.sipios.refactoring.model.ItemType.TSHIRT;
 
@@ -92,15 +94,15 @@ public class ShoppingController {
         }
 
         try {
-            if (requestCart.getCustomerType().equals("STANDARD_CUSTOMER")) {
+            if (requestCart.getCustomerType().equals(STANDARD_CUSTOMER)) {
                 if (price > 200) {
                     throw new Exception("Price (" + price + ") is too high for standard customer");
                 }
-            } else if (requestCart.getCustomerType().equals("PREMIUM_CUSTOMER")) {
+            } else if (requestCart.getCustomerType().equals(PREMIUM_CUSTOMER)) {
                 if (price > 800) {
                     throw new Exception("Price (" + price + ") is too high for premium customer");
                 }
-            } else if (requestCart.getCustomerType().equals("PLATINUM_CUSTOMER")) {
+            } else if (requestCart.getCustomerType().equals(PLATINUM_CUSTOMER)) {
                 if (price > 2000) {
                     throw new Exception("Price (" + price + ") is too high for platinum customer");
                 }
