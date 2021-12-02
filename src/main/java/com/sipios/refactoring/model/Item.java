@@ -1,21 +1,19 @@
 package com.sipios.refactoring.model;
 
 public class Item {
-    private String type;
+    private ItemType type;
     private int nb;
 
-    public Item() {}
-
-    public Item(String type, int quantity) {
+    public Item(ItemType type, int quantity) {
         this.type = type;
         this.nb = quantity;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 
