@@ -1,17 +1,15 @@
 package com.sipios.refactoring.model;
 
-public  class Body {
+public  class Cart {
 
     private Item[] items;
     private String type;
 
-    public Body(Item[] is, String t) {
+    public Cart(Item[] is, String t) {
         this.items = is;
         this.type = t;
     }
-
-    public Body() {}
-
+    
     public Item[] getItems() {
         return items;
     }

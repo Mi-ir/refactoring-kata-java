@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.sipios.refactoring.model.Body;
+import com.sipios.refactoring.model.Cart;
 import com.sipios.refactoring.model.Item;
 import com.sipios.refactoring.service.DiscountService;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class ShoppingController {
     }
 
     @PostMapping
-    public String getPrice(@RequestBody Body requestBody) {
+    public String getPrice(@RequestBody Cart requestCart) {
         double price = 0;
         double d;
 
@@ -38,7 +38,7 @@ public class ShoppingController {
         cal.setTime(date);
 
         // Compute discount for customer
-        d = discountService.computeDiscount(requestBody.getType());
+        d = discountService.computeDiscount(requestCart.getType());
 
         // Compute total amount depending on the types and quantity of product and
         // if we are in winter or summer discounts periods
@@ -54,12 +54,12 @@ public class ShoppingController {
                 cal.get(Calendar.MONTH) == 0
             )
         ) {
-            if (requestBody.getItems() == null) {
+            if (requestCart.getItems() == null) {
                 return "0";
             }
 
-            for (int i = 0; i < requestBody.getItems().length; i++) {
-                Item it = requestBody.getItems()[i];
+            for (int i = 0; i < requestCart.getItems().length; i++) {
+                Item it = requestCart.getItems()[i];
 
                 if (it.getType().equals("TSHIRT")) {
                     price += 30 * it.getNb() * d;
@@ -70,12 +70,12 @@ public class ShoppingController {
                 }
             }
         } else {
-            if (requestBody.getItems() == null) {
+            if (requestCart.getItems() == null) {
                 return "0";
             }
 
-            for (int i = 0; i < requestBody.getItems().length; i++) {
-                Item it = requestBody.getItems()[i];
+            for (int i = 0; i < requestCart.getItems().length; i++) {
+                Item it = requestCart.getItems()[i];
 
                 if (it.getType().equals("TSHIRT")) {
                     price += 30 * it.getNb() * d;
@@ -88,15 +88,15 @@ public class ShoppingController {
         }
 
         try {
-            if (requestBody.getType().equals("STANDARD_CUSTOMER")) {
+            if (requestCart.getType().equals("STANDARD_CUSTOMER")) {
                 if (price > 200) {
                     throw new Exception("Price (" + price + ") is too high for standard customer");
                 }
-            } else if (requestBody.getType().equals("PREMIUM_CUSTOMER")) {
+            } else if (requestCart.getType().equals("PREMIUM_CUSTOMER")) {
                 if (price > 800) {
                     throw new Exception("Price (" + price + ") is too high for premium customer");
                 }
-            } else if (requestBody.getType().equals("PLATINUM_CUSTOMER")) {
+            } else if (requestCart.getType().equals("PLATINUM_CUSTOMER")) {
                 if (price > 2000) {
                     throw new Exception("Price (" + price + ") is too high for platinum customer");
                 }
